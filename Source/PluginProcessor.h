@@ -13,7 +13,8 @@
 //==============================================================================
 /**
 */
-class SimpleChorusAudioProcessor  : public juce::AudioProcessor
+class SimpleChorusAudioProcessor  : public juce::AudioProcessor,
+                                    public juce::AudioProcessorValueTreeState::Listener
                             #if JucePlugin_Enable_ARA
                              , public juce::AudioProcessorARAExtension
                             #endif
@@ -56,8 +57,15 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
+    void reset() override;
+
+    juce::AudioProcessorValueTreeState parameters;
+
 private:
     juce::dsp::Chorus<float> chorus;
+
+    juce::AudioProcessorValueTreeState::ParameterLayout createParameters();
+    void parameterChanged(const juce::String& parameterID, float newValue) override;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SimpleChorusAudioProcessor)
