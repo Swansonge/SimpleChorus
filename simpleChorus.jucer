@@ -5,7 +5,7 @@
               companyName="Swansonge">
   <MAINGROUP id="WXy6YD" name="simpleChorus">
     <GROUP id="{6725B20D-4D18-0BF1-9C77-3EB357776537}" name="Source">
-      <FILE id="F5JVN5" name="LookFeel.h" compile="0" resource="0" file="Source/LookFeel.h"/>
+      <FILE id="X3ZBla" name="LookFeel.h" compile="0" resource="0" file="Source/LookFeel.h"/>
       <FILE id="uQQodM" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="E8oUg6" name="PluginProcessor.h" compile="0" resource="0"
