@@ -10,6 +10,7 @@
 
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
+#include "LookFeel.h"
 
 //==============================================================================
 /**
@@ -27,6 +28,8 @@ public:
 private:
     // This reference is provided as a quick way for your editor to access the processor object that created it.
     SimpleChorusAudioProcessor& audioProcessor;
+
+    OtherLookAndFeel otherLookAndFeel;
 
     juce::Slider rateSlider;
     juce::Slider depthSlider;
