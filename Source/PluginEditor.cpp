@@ -26,7 +26,7 @@ SimpleChorusAudioProcessorEditor::SimpleChorusAudioProcessorEditor (SimpleChorus
     //for some reason can't edit text box colors in look and feel . . .
     rateSlider.setColour(juce::Slider::textBoxBackgroundColourId, juce::Colours::lightgrey);
     rateSlider.setColour(juce::Slider::textBoxTextColourId, juce::Colours::black);
-    rateSlider.setColour(juce::Slider::textBoxOutlineColourId, juce::Colours::antiquewhite);
+    rateSlider.setColour(juce::Slider::textBoxOutlineColourId, juce::Colours::ghostwhite);
     rateSlider.setColour(juce::Slider::textBoxHighlightColourId, juce::Colours::black);
     addAndMakeVisible(rateSlider);
     rateSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.parameters, "RATE", rateSlider);
@@ -43,7 +43,7 @@ SimpleChorusAudioProcessorEditor::SimpleChorusAudioProcessorEditor (SimpleChorus
     depthSlider.setTextBoxIsEditable(true);
     depthSlider.setColour(juce::Slider::textBoxBackgroundColourId, juce::Colours::lightgrey);
     depthSlider.setColour(juce::Slider::textBoxTextColourId, juce::Colours::black);
-    depthSlider.setColour(juce::Slider::textBoxOutlineColourId, juce::Colours::antiquewhite);
+    depthSlider.setColour(juce::Slider::textBoxOutlineColourId, juce::Colours::ghostwhite);
     depthSlider.setColour(juce::Slider::textBoxHighlightColourId, juce::Colours::black);
     addAndMakeVisible(depthSlider);
     depthSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.parameters, "DEPTH", depthSlider);
@@ -60,7 +60,7 @@ SimpleChorusAudioProcessorEditor::SimpleChorusAudioProcessorEditor (SimpleChorus
     delaySlider.setTextBoxIsEditable(true);
     delaySlider.setColour(juce::Slider::textBoxBackgroundColourId, juce::Colours::lightgrey);
     delaySlider.setColour(juce::Slider::textBoxTextColourId, juce::Colours::black);
-    delaySlider.setColour(juce::Slider::textBoxOutlineColourId, juce::Colours::antiquewhite);
+    delaySlider.setColour(juce::Slider::textBoxOutlineColourId, juce::Colours::ghostwhite);
     delaySlider.setColour(juce::Slider::textBoxHighlightColourId, juce::Colours::black);
     addAndMakeVisible(delaySlider);
     delaySliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.parameters, "DELAY", delaySlider);
@@ -77,7 +77,7 @@ SimpleChorusAudioProcessorEditor::SimpleChorusAudioProcessorEditor (SimpleChorus
     feedbackSlider.setTextBoxIsEditable(true);
     feedbackSlider.setColour(juce::Slider::textBoxBackgroundColourId, juce::Colours::lightgrey);
     feedbackSlider.setColour(juce::Slider::textBoxTextColourId, juce::Colours::black);
-    feedbackSlider.setColour(juce::Slider::textBoxOutlineColourId, juce::Colours::antiquewhite);
+    feedbackSlider.setColour(juce::Slider::textBoxOutlineColourId, juce::Colours::ghostwhite);
     feedbackSlider.setColour(juce::Slider::textBoxHighlightColourId, juce::Colours::black);
     addAndMakeVisible(feedbackSlider);
     feedbackSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.parameters, "FEEDBACK", feedbackSlider);
@@ -94,7 +94,7 @@ SimpleChorusAudioProcessorEditor::SimpleChorusAudioProcessorEditor (SimpleChorus
     mixSlider.setTextBoxIsEditable(true);
     mixSlider.setColour(juce::Slider::textBoxBackgroundColourId, juce::Colours::lightgrey);
     mixSlider.setColour(juce::Slider::textBoxTextColourId, juce::Colours::black);
-    mixSlider.setColour(juce::Slider::textBoxOutlineColourId, juce::Colours::antiquewhite);
+    mixSlider.setColour(juce::Slider::textBoxOutlineColourId, juce::Colours::ghostwhite);
     mixSlider.setColour(juce::Slider::textBoxHighlightColourId, juce::Colours::black);
     addAndMakeVisible(mixSlider);
     mixSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.parameters, "MIX", mixSlider);
@@ -104,6 +104,18 @@ SimpleChorusAudioProcessorEditor::SimpleChorusAudioProcessorEditor (SimpleChorus
     mixLabel.attachToComponent(&mixSlider, false);
     mixLabel.setFont(newFont);
     addAndMakeVisible(mixLabel);
+
+    //IMAGE
+    auto image = juce::ImageCache::getFromMemory(BinaryData::simpeChorus_image_PNG, BinaryData::simpeChorus_image_PNGSize);
+    //make sure image exists
+    if (!image.isNull())
+    {
+        imageComponent.setImage(image);
+        addAndMakeVisible(imageComponent);
+    }
+    else
+        jassert(!image.isNull());
+    
 
     setSize (700, 200);
 }
@@ -124,12 +136,13 @@ void SimpleChorusAudioProcessorEditor::paint (juce::Graphics& g)
 
 void SimpleChorusAudioProcessorEditor::resized()
 {
-    const float sliderWidth = 0.2f;
-    const float sliderHeight = 0.5f;
+    const float sliderWidth = 0.175f;
+    const float sliderHeight = 0.475f;
 
-    rateSlider.setBoundsRelative(0.0f, 0.3f, sliderWidth, sliderHeight);
-    depthSlider.setBoundsRelative(0.2f, 0.3f, sliderWidth, sliderHeight);
-    delaySlider.setBoundsRelative(0.4f, 0.3f, sliderWidth, sliderHeight);
-    feedbackSlider.setBoundsRelative(0.6f, 0.3f, sliderWidth, sliderHeight);
-    mixSlider.setBoundsRelative(0.8f, 0.3f, sliderWidth, sliderHeight);
+    rateSlider.setBoundsRelative(0.0f, 0.25f, sliderWidth, sliderHeight);
+    depthSlider.setBoundsRelative(0.2f, 0.25f, sliderWidth, sliderHeight);
+    delaySlider.setBoundsRelative(0.4f, 0.25f, sliderWidth, sliderHeight);
+    feedbackSlider.setBoundsRelative(0.6f, 0.25f, sliderWidth, sliderHeight);
+    mixSlider.setBoundsRelative(0.8f, 0.25f, sliderWidth, sliderHeight);
+    imageComponent.setBoundsRelative(0.74f, 0.65f, 0.4f, 0.4f);
 }

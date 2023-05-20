@@ -5,7 +5,7 @@
               companyName="Swansonge">
   <MAINGROUP id="WXy6YD" name="simpleChorus">
     <GROUP id="{6725B20D-4D18-0BF1-9C77-3EB357776537}" name="Source">
-      <FILE id="X3ZBla" name="LookFeel.h" compile="0" resource="0" file="Source/LookFeel.h"/>
+      <FILE id="F5JVN5" name="LookFeel.h" compile="0" resource="0" file="Source/LookFeel.h"/>
       <FILE id="uQQodM" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="E8oUg6" name="PluginProcessor.h" compile="0" resource="0"
@@ -13,6 +13,10 @@
       <FILE id="oDOE0J" name="PluginEditor.cpp" compile="1" resource="0"
             file="Source/PluginEditor.cpp"/>
       <FILE id="mGRBB1" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
+    </GROUP>
+    <GROUP id="{426DB72C-1753-4769-02E0-F13BF206DBCD}" name="Assets">
+      <FILE id="WG9Zto" name="simpeChorus_image.PNG" compile="0" resource="1"
+            file="Assets/simpeChorus_image.PNG"/>
     </GROUP>
   </MAINGROUP>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>

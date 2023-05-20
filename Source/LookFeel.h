@@ -18,7 +18,7 @@ class OtherLookAndFeel : public juce::LookAndFeel_V4
 public:
     OtherLookAndFeel()
     {
-        setColour(juce::ResizableWindow::backgroundColourId, juce::Colours::antiquewhite);
+        setColour(juce::ResizableWindow::backgroundColourId, juce::Colours::ghostwhite);
 
         //labels
         setColour(juce::Label::textColourId, juce::Colours::black);  

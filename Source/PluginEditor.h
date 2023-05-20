@@ -44,6 +44,8 @@ private:
     juce::Label mixLabel;
     juce::Label title;
 
+    juce::ImageComponent imageComponent;
+
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> rateSliderAttachment;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> depthSliderAttachment;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> delaySliderAttachment;
