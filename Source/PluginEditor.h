@@ -21,6 +21,8 @@ public:
     SimpleChorusAudioProcessorEditor (SimpleChorusAudioProcessor&);
     ~SimpleChorusAudioProcessorEditor() override;
 
+    void customizeFx(juce::Slider* slider, juce::Label* label, juce::Font font);
+
     //==============================================================================
     void paint (juce::Graphics&) override;
     void resized() override;

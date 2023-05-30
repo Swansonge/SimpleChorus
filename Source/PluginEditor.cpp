@@ -19,90 +19,44 @@ SimpleChorusAudioProcessorEditor::SimpleChorusAudioProcessorEditor (SimpleChorus
     //20 point font, bold
     auto newFont = juce::Font("Comic Sans", "Comic Sans MS Bold Italic", 20.0);
 
-    //RATE SLIDER
-    rateSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
-    rateSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 20);
-    rateSlider.setTextBoxIsEditable(true);
-    //for some reason can't edit text box colors in look and feel . . .
-    rateSlider.setColour(juce::Slider::textBoxBackgroundColourId, juce::Colours::lightgrey);
-    rateSlider.setColour(juce::Slider::textBoxTextColourId, juce::Colours::black);
-    rateSlider.setColour(juce::Slider::textBoxOutlineColourId, juce::Colours::ghostwhite);
-    rateSlider.setColour(juce::Slider::textBoxHighlightColourId, juce::Colours::black);
+    //RATE SLIDER, RATE LABEL
+    customizeFx(&rateSlider, &rateLabel, newFont);
     addAndMakeVisible(rateSlider);
     rateSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.parameters, "RATE", rateSlider);
-    //RATE LABEL
     rateLabel.setText("Rate", juce::dontSendNotification);
-    rateLabel.setJustificationType(juce::Justification::centred);
     rateLabel.attachToComponent(&rateSlider, false);
-    rateLabel.setFont(newFont);
     addAndMakeVisible(rateLabel);
 
-    //DEPTH SLIDER
-    depthSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
-    depthSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 20);
-    depthSlider.setTextBoxIsEditable(true);
-    depthSlider.setColour(juce::Slider::textBoxBackgroundColourId, juce::Colours::lightgrey);
-    depthSlider.setColour(juce::Slider::textBoxTextColourId, juce::Colours::black);
-    depthSlider.setColour(juce::Slider::textBoxOutlineColourId, juce::Colours::ghostwhite);
-    depthSlider.setColour(juce::Slider::textBoxHighlightColourId, juce::Colours::black);
+    //DEPTH SLIDER, DEPTH LABEL
+    customizeFx(&depthSlider, &depthLabel, newFont);
     addAndMakeVisible(depthSlider);
     depthSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.parameters, "DEPTH", depthSlider);
-    //DEPTH LABEL
     depthLabel.setText("Depth", juce::dontSendNotification);
-    depthLabel.setJustificationType(juce::Justification::centred);
     depthLabel.attachToComponent(&depthSlider, false);
-    depthLabel.setFont(newFont);
     addAndMakeVisible(depthLabel);
 
-    //DELAY SLIDER
-    delaySlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
-    delaySlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 20);
-    delaySlider.setTextBoxIsEditable(true);
-    delaySlider.setColour(juce::Slider::textBoxBackgroundColourId, juce::Colours::lightgrey);
-    delaySlider.setColour(juce::Slider::textBoxTextColourId, juce::Colours::black);
-    delaySlider.setColour(juce::Slider::textBoxOutlineColourId, juce::Colours::ghostwhite);
-    delaySlider.setColour(juce::Slider::textBoxHighlightColourId, juce::Colours::black);
+    //DELAY SLIDER, DELAY LABEL
+    customizeFx(&delaySlider, &delayLabel, newFont);
     addAndMakeVisible(delaySlider);
-    delaySliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.parameters, "DELAY", delaySlider);
-    //DELAY LABEL
+    delaySliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.parameters, "delay", delaySlider);
     delayLabel.setText("Delay", juce::dontSendNotification);
-    delayLabel.setJustificationType(juce::Justification::centred);
     delayLabel.attachToComponent(&delaySlider, false);
-    delayLabel.setFont(newFont);
     addAndMakeVisible(delayLabel);
 
-    //FEEDBACK SLIDER
-    feedbackSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
-    feedbackSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 20);
-    feedbackSlider.setTextBoxIsEditable(true);
-    feedbackSlider.setColour(juce::Slider::textBoxBackgroundColourId, juce::Colours::lightgrey);
-    feedbackSlider.setColour(juce::Slider::textBoxTextColourId, juce::Colours::black);
-    feedbackSlider.setColour(juce::Slider::textBoxOutlineColourId, juce::Colours::ghostwhite);
-    feedbackSlider.setColour(juce::Slider::textBoxHighlightColourId, juce::Colours::black);
+    //FEEDBACK SLIDER, FEEDBACK LABEL
+    customizeFx(&feedbackSlider, &feedbackLabel, newFont);
     addAndMakeVisible(feedbackSlider);
-    feedbackSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.parameters, "FEEDBACK", feedbackSlider);
-    //FEEDBACK LABEL
+    feedbackSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.parameters, "feedback", feedbackSlider);
     feedbackLabel.setText("Feedback", juce::dontSendNotification);
-    feedbackLabel.setJustificationType(juce::Justification::centred);
     feedbackLabel.attachToComponent(&feedbackSlider, false);
-    feedbackLabel.setFont(newFont);
     addAndMakeVisible(feedbackLabel);
 
-    //MIX SLIDER
-    mixSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
-    mixSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 20);
-    mixSlider.setTextBoxIsEditable(true);
-    mixSlider.setColour(juce::Slider::textBoxBackgroundColourId, juce::Colours::lightgrey);
-    mixSlider.setColour(juce::Slider::textBoxTextColourId, juce::Colours::black);
-    mixSlider.setColour(juce::Slider::textBoxOutlineColourId, juce::Colours::ghostwhite);
-    mixSlider.setColour(juce::Slider::textBoxHighlightColourId, juce::Colours::black);
+    //MIX SLIDER, MIX LABEL
+    customizeFx(&mixSlider, &mixLabel, newFont);
     addAndMakeVisible(mixSlider);
-    mixSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.parameters, "MIX", mixSlider);
-    //MIX LABEL
+    mixSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.parameters, "mix", mixSlider);
     mixLabel.setText("Mix", juce::dontSendNotification);
-    mixLabel.setJustificationType(juce::Justification::centred);
     mixLabel.attachToComponent(&mixSlider, false);
-    mixLabel.setFont(newFont);
     addAndMakeVisible(mixLabel);
 
     //IMAGE
@@ -145,4 +99,22 @@ void SimpleChorusAudioProcessorEditor::resized()
     feedbackSlider.setBoundsRelative(0.6f, 0.25f, sliderWidth, sliderHeight);
     mixSlider.setBoundsRelative(0.8f, 0.25f, sliderWidth, sliderHeight);
     imageComponent.setBoundsRelative(0.74f, 0.65f, 0.4f, 0.4f);
+}
+
+//customize slider and label graphics in this function to clean up code in constructor
+void SimpleChorusAudioProcessorEditor::customizeFx(juce::Slider* slider, juce::Label* label, juce::Font font)
+{
+    //RATE SLIDER
+    slider->setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
+    slider->setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 20);
+    slider->setTextBoxIsEditable(true);
+    //for some reason can't edit text box colors in look and feel . . .
+    slider->setColour(juce::Slider::textBoxBackgroundColourId, juce::Colours::lightgrey);
+    slider->setColour(juce::Slider::textBoxTextColourId, juce::Colours::black);
+    slider->setColour(juce::Slider::textBoxOutlineColourId, juce::Colours::ghostwhite);
+    slider->setColour(juce::Slider::textBoxHighlightColourId, juce::Colours::black);
+
+    //RATE LABEL
+    label->setJustificationType(juce::Justification::centred);
+    label->setFont(font);
 }
