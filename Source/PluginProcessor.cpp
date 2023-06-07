@@ -28,6 +28,12 @@ SimpleChorusAudioProcessor::SimpleChorusAudioProcessor()
     parameters.addParameterListener("DELAY", this);
     parameters.addParameterListener("FEEDBACK", this);
     parameters.addParameterListener("MIX", this);
+
+    chorus.setRate(0);
+    chorus.setDepth(0);
+    chorus.setCentreDelay(1);
+    chorus.setFeedback(0);
+    chorus.setMix(0);
 }
 
 SimpleChorusAudioProcessor::~SimpleChorusAudioProcessor()
@@ -247,6 +253,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout SimpleChorusAudioProcessor::
     params.add(std::make_unique<juce::AudioParameterInt>("DELAY", "Center Delay", 1, 100, 1));
     params.add(std::make_unique<juce::AudioParameterFloat>("FEEDBACK", "Feedback", Range{ -1.0f, 1.0f, 0.01f }, 0.0f));
     params.add(std::make_unique<juce::AudioParameterFloat>("MIX", "Wet Dry Mix", Range{ 0.0f, 1.0f, 0.01f }, 0.0f));
+    //params.add(std::make_unique<juce::AudioParameterChoice>("PRESET", ))
 
     return params;
 }
