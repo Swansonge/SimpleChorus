@@ -106,21 +106,22 @@ SimpleChorusAudioProcessorEditor::SimpleChorusAudioProcessorEditor(SimpleChorusA
     addAndMakeVisible(mixLabel);
 
     //PREESET DROP-DOWN
-    presetMenu.addItem("Default", 1);
-    presetMenu.addItem("Basic chorus", 2);
-    presetMenu.addItem("Basic flange", 3);
-    presetMenu.addItem("Vibe-rato", 4);
-    presetMenu.addItem("Air support", 5);
-    presetMenu.addItem("Zap!", 6);
-    presetMenu.addItem("Start ur engines", 7);
-    presetMenu.addItem("Rubber chicken", 8);
-    presetMenu.addItem("Boinnng", 9);
-    presetMenu.addItem("Warning: infinite noise", 10);
+    presetMenu.addItem("Default", default_setting);
+    presetMenu.addItem("Basic chorus", basic_chorus);
+    presetMenu.addItem("Basic flange", basic_flange);
+    presetMenu.addItem("Vibe-rato", vibe_rato);
+    presetMenu.addItem("Air support", air_support);
+    presetMenu.addItem("Zap!", zap);
+    presetMenu.addItem("Start ur engines", start_ur_engines);
+    presetMenu.addItem("Rubber chicken", rubber_chicken);
+    presetMenu.addItem("Boinnng", boinnng);
+    presetMenu.addItem("Warning: infinite noise", infinite_noise);
     presetMenu.setSelectedId(1);
     presetMenu.setColour(juce::ComboBox::backgroundColourId, juce::Colours::lightgrey);
     presetMenu.setColour(juce::ComboBox::textColourId, juce::Colours::black);
     presetMenu.setColour(juce::ComboBox::outlineColourId, juce::Colours::black);
     addAndMakeVisible(presetMenu);
+    presetMenu.addListener(this);
     
     //IMAGE
     auto image = juce::ImageCache::getFromMemory(BinaryData::simpeChorus_image_PNG, BinaryData::simpeChorus_image_PNGSize);
@@ -163,4 +164,82 @@ void SimpleChorusAudioProcessorEditor::resized()
     mixSlider.setBoundsRelative(0.8f, 0.15f, sliderWidth, sliderHeight);
     presetMenu.setBoundsRelative(0.375f, 0.7f, sliderWidth*1.5, sliderHeight/3);
     imageComponent.setBoundsRelative(0.74f, 0.6f, 0.4f, 0.4f);
+}
+
+//change slider values when user changes preset
+void SimpleChorusAudioProcessorEditor::comboBoxChanged(juce::ComboBox* comboBox)
+{
+    switch (presetMenu.getSelectedId())
+    {
+        case default_setting:
+            rateSlider.setValue(0);
+            depthSlider.setValue(0.0f);
+            delaySlider.setValue(0);
+            feedbackSlider.setValue(0.0f);
+            mixSlider.setValue(0.0f);
+            break;
+        case basic_chorus:
+            rateSlider.setValue(3,juce::sendNotificationSync);
+            depthSlider.setValue(0.12f);
+            delaySlider.setValue(7);
+            feedbackSlider.setValue(0.1f);
+            mixSlider.setValue(0.5f);
+            break;
+        case basic_flange:
+            rateSlider.setValue(10);
+            depthSlider.setValue(0.06f);
+            delaySlider.setValue(3);
+            feedbackSlider.setValue(0.55f);
+            mixSlider.setValue(0.7f);
+            break;
+        case vibe_rato:
+            rateSlider.setValue(3);
+            depthSlider.setValue(0.2f);
+            delaySlider.setValue(14);
+            feedbackSlider.setValue(0.0f);
+            mixSlider.setValue(1.0f);
+            break;
+        case air_support:
+            rateSlider.setValue(15);
+            depthSlider.setValue(0.18f);
+            delaySlider.setValue(3);
+            feedbackSlider.setValue(0.5f);
+            mixSlider.setValue(0.37f);
+            break;
+        case zap:
+            rateSlider.setValue(20);
+            depthSlider.setValue(0.26f);
+            delaySlider.setValue(3);
+            feedbackSlider.setValue(0.38f);
+            mixSlider.setValue(0.7f);
+            break;
+        case start_ur_engines:
+            rateSlider.setValue(40);
+            depthSlider.setValue(0.15f);
+            delaySlider.setValue(2);
+            feedbackSlider.setValue(0.23f);
+            mixSlider.setValue(0.56f);
+            break;
+        case rubber_chicken:
+            rateSlider.setValue(77);
+            depthSlider.setValue(0.53f);
+            delaySlider.setValue(1);
+            feedbackSlider.setValue(0.72f);
+            mixSlider.setValue(0.57f);
+            break;
+        case boinnng:
+            rateSlider.setValue(7);
+            depthSlider.setValue(0.27f);
+            delaySlider.setValue(100);
+            feedbackSlider.setValue(0.0f);
+            mixSlider.setValue(1.0f);
+            break;
+        case infinite_noise:
+            rateSlider.setValue(99);
+            depthSlider.setValue(1.0f);
+            delaySlider.setValue(100);
+            feedbackSlider.setValue(1.0f);
+            mixSlider.setValue(0.01f);
+            break;
+    }
 }
