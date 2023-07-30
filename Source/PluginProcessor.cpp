@@ -19,13 +19,30 @@ SimpleChorusAudioProcessor::SimpleChorusAudioProcessor()
                       #endif
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
-                       )
+                        //initialize apvts for holding parameters
+                       ), parameters(*this, nullptr, "Parameters", createParameters())
 #endif
 {
+    parameters.addParameterListener("RATE", this);
+    parameters.addParameterListener("DEPTH", this);
+    parameters.addParameterListener("DELAY", this);
+    parameters.addParameterListener("FEEDBACK", this);
+    parameters.addParameterListener("MIX", this);
+
+    chorus.setRate(0);
+    chorus.setDepth(0);
+    chorus.setCentreDelay(1);
+    chorus.setFeedback(0);
+    chorus.setMix(0);
 }
 
 SimpleChorusAudioProcessor::~SimpleChorusAudioProcessor()
 {
+    parameters.removeParameterListener("RATE", this);
+    parameters.removeParameterListener("DEPTH", this);
+    parameters.removeParameterListener("DELAY", this);
+    parameters.removeParameterListener("FEEDBACK", this);
+    parameters.removeParameterListener("MIX", this);
 }
 
 //==============================================================================
@@ -97,7 +114,7 @@ void SimpleChorusAudioProcessor::prepareToPlay (double sampleRate, int samplesPe
     spec.maximumBlockSize = samplesPerBlock;
     spec.sampleRate = sampleRate;
     spec.numChannels = getTotalNumOutputChannels();
-    DBG("max block size" << samplesPerBlock);
+    //DBG("max block size" << samplesPerBlock);
 
     chorus.prepare(spec);
     chorus.reset();
@@ -145,13 +162,6 @@ void SimpleChorusAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer,
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
-    //hard code chorus params for now
-    chorus.setRate(5.0f);
-    chorus.setCentreDelay(7.5f);
-    chorus.setFeedback(0.5f);
-    chorus.setDepth(0.3f);
-    chorus.setMix(0.5f);
-
     //create block of audio from sample buuffer
     auto audioBlock = juce::dsp::AudioBlock<float>(buffer);
 
@@ -170,21 +180,30 @@ bool SimpleChorusAudioProcessor::hasEditor() const
 
 juce::AudioProcessorEditor* SimpleChorusAudioProcessor::createEditor()
 {
+    //return new juce::GenericAudioProcessorEditor(*this);
     return new SimpleChorusAudioProcessorEditor (*this);
 }
 
 //==============================================================================
 void SimpleChorusAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
 {
-    // You should use this method to store your parameters in the memory block.
-    // You could do that either as raw data, or use the XML or ValueTree classes
-    // as intermediaries to make it easy to save and load complex data.
+    //store your parameters in the memory block.
+    auto state = parameters.copyState();
+    std::unique_ptr<juce::XmlElement> xml(state.createXml());
+    copyXmlToBinary(*xml, destData);
 }
 
 void SimpleChorusAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
-    // You should use this method to restore your parameters from this memory block,
-    // whose contents will have been created by the getStateInformation() call.
+    //restore your parameters from this memory block whose contents will have been created by the getStateInformation() call.
+    std::unique_ptr<juce::XmlElement> xmlState(getXmlFromBinary(data, sizeInBytes));
+
+    if (xmlState.get() != nullptr)
+    {
+        if (xmlState->hasTagName(parameters.state.getType()))
+            parameters.replaceState(juce::ValueTree::fromXml(*xmlState));
+    }
+    
 }
 
 //==============================================================================
@@ -192,4 +211,49 @@ void SimpleChorusAudioProcessor::setStateInformation (const void* data, int size
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new SimpleChorusAudioProcessor();
+}
+
+void SimpleChorusAudioProcessor::reset()
+{
+    chorus.reset();
+}
+
+void SimpleChorusAudioProcessor::parameterChanged(const juce::String& parameterID, float newValue)
+{
+    if (parameterID == "RATE")
+        chorus.setRate(newValue);
+
+    if (parameterID == "DEPTH")
+        chorus.setDepth(newValue);
+
+    if (parameterID == "DELAY")
+        chorus.setCentreDelay(newValue);
+
+    if (parameterID == "FEEDBACK")
+        chorus.setFeedback(newValue);
+
+    if (parameterID == "MIX")
+        chorus.setMix(newValue);
+}
+
+juce::AudioProcessorValueTreeState::ParameterLayout SimpleChorusAudioProcessor::createParameters()
+{
+    juce::AudioProcessorValueTreeState::ParameterLayout params;
+
+    //params.add(std::make_unique<juce::AudioParameterFloat>("RATE", "Rate", 0.0f, 99.0f, 0.0f));
+    //params.add(std::make_unique<juce::AudioParameterFloat>("DEPTH", "Depth", 0.0f, 1.0f, 0.0f));
+    //params.add(std::make_unique<juce::AudioParameterFloat>("DELAY", "Center Delay", 1.0f, 100.0f, 1.0f));
+    //params.add(std::make_unique<juce::AudioParameterFloat>("FEEDBACK", "Feedback", -1.0f, 1.0f, 0.0f));
+    //params.add(std::make_unique<juce::AudioParameterFloat>("MIX", "Wet Dry Mix", 0.0f, 1.0f, 0.0f));
+
+    using Range = juce::NormalisableRange<float>;
+
+    params.add(std::make_unique<juce::AudioParameterInt>("RATE", "Rate", 0, 99, 0));
+    params.add(std::make_unique<juce::AudioParameterFloat>("DEPTH", "Depth", Range{ 0.0f, 1.0f, 0.01f }, 0.0f));
+    params.add(std::make_unique<juce::AudioParameterInt>("DELAY", "Center Delay", 1, 100, 1));
+    params.add(std::make_unique<juce::AudioParameterFloat>("FEEDBACK", "Feedback", Range{ -1.0f, 1.0f, 0.01f }, 0.0f));
+    params.add(std::make_unique<juce::AudioParameterFloat>("MIX", "Wet Dry Mix", Range{ 0.0f, 1.0f, 0.01f }, 0.0f));
+    //params.add(std::make_unique<juce::AudioParameterChoice>("PRESET", ))
+
+    return params;
 }
